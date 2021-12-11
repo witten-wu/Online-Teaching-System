@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.Train.dao.FileDao">
+	<!-- 先定义一个Interface，UserMapper，然后Mapper文件的namespace指向的就是这个Interface， UserInterface里定义的方法和UserMapper.xml文件中的一样, 
+		然后代码里直接使用接口 -->
+	<resultMap type="com.Train.model.FileEntity" id="FileResult">
+		<result property="fileId" column="fileId" />
+		<result property="titleOrig" column="titleOrig" />
+		<result property="titleAlter" column="titleAlter" />
+		<result property="size" column="size" />
+		<result property="type" column="type" />
+		<result property="path" column="path" />
+		<result property="uploadTime" column="uploadTime" />
+		<result column="cid" property="cid"/>
+    	<result column="cname" property="cname"/>
+    	<result column="cdescription" property="cdescription"/>
+	</resultMap>
+	<!-- 所谓的动态SQL语句 -->
+
+	<!-- 用户查询 -->
+	<select id="findByid"  parameterType="java.lang.Integer"  resultMap="FileResult">
+		select * from fileupdate where fileId = #{id}
+	</select>
+	
+	<select id="selectCourses2"  parameterType="java.lang.Integer"  resultMap="FileResult">
+		select * from fileupdate where cid = #{cid}
+	</select>
+	
+	<select id="selectCourses3"  parameterType="java.lang.Integer"  resultMap="FileResult">
+		select * from fileupdate where fileId = #{fileId}
+	</select>
+	
+	<delete id="deleteCourseByfileId" parameterType="java.lang.Integer" >
+    delete from fileupdate
+    where fileId = #{fileId,jdbcType=INTEGER}
+    </delete>
+	
+	<insert id="saveFile" useGeneratedKeys="true" keyProperty="fileId" parameterType="com.Train.model.FileEntity">
+	 insert into fileupdate (titleOrig,titleAlter,size,type,path,uploadTime,cid,cname,cdescription) values(#{titleOrig},#{titleAlter},#{size},#{type},#{path},#{uploadTime},#{cid},#{cname},#{cdescription})
+	</insert>
+	
+	<update id="updateFile" useGeneratedKeys="true" keyProperty="fileId" parameterType="com.Train.model.FileEntity" >
+    update fileupdate
+    set titleOrig=#{titleOrig},
+    	titleAlter=#{titleAlter},
+    	size=#{size},
+    	type=#{type},
+    	path=#{path},
+    	uploadTime=#{uploadTime},
+    	cid=#{cid},
+    	cname=#{cname},
+    	cdescription=#{cdescription}
+    where fileId = #{fileId}
+  </update>
+
+</mapper>

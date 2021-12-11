@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.Train.dao.TitleDao" >
+  <resultMap id="BaseResultMap" type="com.Train.model.Title" >
+    <id column="titleid" property="titleid" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="option_a" property="optionA" jdbcType="VARCHAR" />
+    <result column="option_b" property="optionB" jdbcType="VARCHAR" />
+    <result column="option_c" property="optionC" jdbcType="VARCHAR" />
+    <result column="option_d" property="optionD" jdbcType="VARCHAR" />
+    <result column="option_r" property="optionR" jdbcType="VARCHAR" />
+    <result column="cid" property="cid" jdbcType="INTEGER" />
+    <result column="ccid" property="ccid" jdbcType="INTEGER" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    titleid, title, option_a, option_b, option_c, option_d, option_r, cid,ccid
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from title
+    where titleid = #{titleid,jdbcType=INTEGER}
+  </select>
+
+   <select id="selectTitleByCcid" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from title
+    where ccid = #{ccid,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectTitleByCid" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from title
+    where cid = #{cid,jdbcType=INTEGER} ORDER BY RAND() LIMIT 5
+  </select>
+  
+  <select id="checkTitle" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select
+    <include refid="Base_Column_List" />
+    from title
+    where ccid = #{ccid,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from title
+    where titleid = #{titleid,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="com.Train.model.Title" >
+    insert into title (titleid, title, option_a, 
+      option_b, option_c, option_d, 
+      option_r, cid, ccid)
+    values (#{titleid,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{optionA,jdbcType=VARCHAR}, 
+      #{optionB,jdbcType=VARCHAR}, #{optionC,jdbcType=VARCHAR}, #{optionD,jdbcType=VARCHAR}, 
+      #{optionR,jdbcType=VARCHAR}, #{cid,jdbcType=INTEGER}, #{ccid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.Train.model.Title" >
+    insert into title
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="titleid != null" >
+        titleid,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="optionA != null" >
+        option_a,
+      </if>
+      <if test="optionB != null" >
+        option_b,
+      </if>
+      <if test="optionC != null" >
+        option_c,
+      </if>
+      <if test="optionD != null" >
+        option_d,
+      </if>
+      <if test="optionR != null" >
+        option_r,
+      </if>
+      <if test="cid != null" >
+        cid,
+      </if>
+      <if test="ccid != null" >
+        ccid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="titleid != null" >
+        #{titleid,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="optionA != null" >
+        #{optionA,jdbcType=VARCHAR},
+      </if>
+      <if test="optionB != null" >
+        #{optionB,jdbcType=VARCHAR},
+      </if>
+      <if test="optionC != null" >
+        #{optionC,jdbcType=VARCHAR},
+      </if>
+      <if test="optionD != null" >
+        #{optionD,jdbcType=VARCHAR},
+      </if>
+      <if test="optionR != null" >
+        #{optionR,jdbcType=VARCHAR},
+      </if>
+      <if test="cid != null" >
+        #{cid,jdbcType=INTEGER},
+      </if>
+      <if test="ccid != null" >
+        #{ccid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  
+  <insert id="insertTitle" parameterType="com.Train.model.Title" >
+    insert into title
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="titleid != null" >
+        titleid,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="optionA != null" >
+        option_a,
+      </if>
+      <if test="optionB != null" >
+        option_b,
+      </if>
+      <if test="optionC != null" >
+        option_c,
+      </if>
+      <if test="optionD != null" >
+        option_d,
+      </if>
+      <if test="optionR != null" >
+        option_r,
+      </if>
+      <if test="cid != null" >
+        cid,
+      </if>
+      <if test="ccid != null" >
+        ccid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="titleid != null" >
+        #{titleid,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="optionA != null" >
+        #{optionA,jdbcType=VARCHAR},
+      </if>
+      <if test="optionB != null" >
+        #{optionB,jdbcType=VARCHAR},
+      </if>
+      <if test="optionC != null" >
+        #{optionC,jdbcType=VARCHAR},
+      </if>
+      <if test="optionD != null" >
+        #{optionD,jdbcType=VARCHAR},
+      </if>
+      <if test="optionR != null" >
+        #{optionR,jdbcType=VARCHAR},
+      </if>
+      <if test="cid != null" >
+        #{cid,jdbcType=INTEGER},
+      </if>
+      <if test="ccid != null" >
+        #{ccid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateTitle" parameterType="com.Train.model.Title" >
+    update title
+    <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="optionA != null" >
+        option_a = #{optionA,jdbcType=VARCHAR},
+      </if>
+      <if test="optionB != null" >
+        option_b = #{optionB,jdbcType=VARCHAR},
+      </if>
+      <if test="optionC != null" >
+        option_c = #{optionC,jdbcType=VARCHAR},
+      </if>
+      <if test="optionD != null" >
+        option_d = #{optionD,jdbcType=VARCHAR},
+      </if>
+      <if test="optionR != null" >
+        option_r = #{optionR,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where titleid = #{titleid,jdbcType=INTEGER}
+  </update>
+ 
+  <update id="updateByPrimaryKeySelective" parameterType="com.Train.model.Title" >
+    update title
+    <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="optionA != null" >
+        option_a = #{optionA,jdbcType=VARCHAR},
+      </if>
+      <if test="optionB != null" >
+        option_b = #{optionB,jdbcType=VARCHAR},
+      </if>
+      <if test="optionC != null" >
+        option_c = #{optionC,jdbcType=VARCHAR},
+      </if>
+      <if test="optionD != null" >
+        option_d = #{optionD,jdbcType=VARCHAR},
+      </if>
+      <if test="optionR != null" >
+        option_r = #{optionR,jdbcType=VARCHAR},
+      </if>
+      <if test="cid != null" >
+        cid = #{cid,jdbcType=INTEGER},
+      </if>
+      <if test="cid != null" >
+        ccid = #{ccid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where titleid = #{titleid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.Train.model.Title" >
+    update title
+    set title = #{title,jdbcType=VARCHAR},
+      option_a = #{optionA,jdbcType=VARCHAR},
+      option_b = #{optionB,jdbcType=VARCHAR},
+      option_c = #{optionC,jdbcType=VARCHAR},
+      option_d = #{optionD,jdbcType=VARCHAR},
+      option_r = #{optionR,jdbcType=VARCHAR},
+      cid = #{cid,jdbcType=INTEGER},
+      ccid = #{ccid,jdbcType=INTEGER}
+    where titleid = #{titleid,jdbcType=INTEGER}
+  </update>
+</mapper>

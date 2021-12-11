@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.Train.dao.CourseDao" >
+  <resultMap id="BaseResultMap" type="com.Train.model.Course" >
+    <id column="cId" property="cid" jdbcType="INTEGER" />
+    <result column="cName" property="cname" jdbcType="VARCHAR" />
+    <result column="cDescription" property="cdescription" jdbcType="VARCHAR" />
+    <result column="cTeacher" property="cteacher" jdbcType="VARCHAR" />
+    <result column="cPath" property="cpath" jdbcType="VARCHAR" />  
+  </resultMap>
+  
+  <resultMap id="queryForListMap" type="com.Train.model.Course">
+    <id column="cId" property="cid" jdbcType="INTEGER" />
+    <result column="cName" property="cname" jdbcType="VARCHAR" />
+    <result column="cDescription" property="cdescription" jdbcType="VARCHAR" />
+    <result column="cTeacher" property="cteacher" jdbcType="VARCHAR" />
+    <result column="cPath" property="cpath" jdbcType="VARCHAR" /> 
+    <!-- <collection property="usercourse" javaType="java.util.List" ofType="com.Train.model.UserCourse">
+    <id column="ucid" property="ucid" jdbcType="INTEGER" />
+    <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="cid" property="cid" jdbcType="INTEGER" />
+    <result column="score" property="score" jdbcType="VARCHAR" />
+    </collection> -->
+    <result column="score" property="score" jdbcType="VARCHAR" />
+    <result column="uid" property="uid" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <select id="selectMyScore" resultMap="queryForListMap">
+   SELECT cId,cName,cTeacher,score
+   FROM course natural join user_course
+   WHERE uid=#{uid,jdbcType=INTEGER} AND score is not null;
+  </select>
+  <sql id="Base_Column_List" >
+    cId, cName, cDescription, cTeacher,cPath
+  </sql>
+  
+  <select id="selectCourseByCid" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from course
+    where cId = #{cid,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectMyCourses" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+  SELECT c.cId,c.cName,c.cTeacher,c.cDescription,c.cPath
+  FROM course c
+  WHERE c.cId IN(SELECT cid FROM user_course WHERE uid=#{uid,jdbcType=INTEGER}) 
+  </select>
+  
+  <select id="selectMyExam" resultMap="queryForListMap" parameterType="java.lang.Integer">
+  SELECT cId,cName,cTeacher,score
+  FROM course natural join user_course
+  WHERE uid=#{uid,jdbcType=INTEGER} AND cid IN (SELECT cid FROM title)
+  </select>
+  
+  <select id="selectDescriptionBycId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from course
+    where cId = #{cid,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from course
+    where cId = #{cid,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectAllCourses" resultMap="queryForListMap" >
+    select c.cId,c.cName,c.cTeacher,c.cDescription,c.cPath,u.uid
+    FROM course c LEFT JOIN user_course u on c.cId=u.cid AND u.uid=#{uid,jdbcType=INTEGER}
+    ORDER BY c.cId;
+  </select>
+  
+  <select id="selectTeacherCourses" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from course
+    WHERE cTeacher in (select uname from user where uid=#{uid,jdbcType=INTEGER})
+  </select>
+  
+  <select id="selectAllC" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from course
+  </select>
+  
+  <select id="selectTeacher" resultMap="BaseResultMap">
+    select DISTINCT cTeacher
+    from course
+  </select>
+  
+  <select id="selectCourseByCteacher" resultMap="queryForListMap">
+    select c.cId,c.cName,c.cTeacher,c.cDescription,c.cPath,u.uid
+    from course c LEFT JOIN user_course u on c.cId=u.cid AND u.uid=#{0} 
+    WHERE c.cTeacher=#{1}
+    ORDER BY c.cId
+  </select>
+  
+  <select id="selectCourseByCname" resultMap="queryForListMap">
+    select c.cId,c.cName,c.cTeacher,c.cDescription,c.cPath,u.uid
+    from course c LEFT JOIN user_course u on c.cId=u.cid AND u.uid=#{0} 
+    WHERE c.cName like concat(concat('%',#{1},'%'))
+    ORDER BY c.cId
+  </select>
+  
+  <delete id="deleteCourseByCid" parameterType="java.lang.Integer" >
+    DELETE a,b,c,d
+	FROM course a INNER JOIN fileupdate b ON a.cId=b.cid
+	INNER JOIN title c ON a.cId=c.cid
+	INNER JOIN user_course d ON a.cId=d.cid
+    where a.cId = #{cid,jdbcType=INTEGER}
+  </delete>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from course
+    where cId = #{cid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.Train.model.Course" >
+    insert into course (cId, cName, cDescription, 
+      cTeacher,cPath)
+    values (#{cid,jdbcType=INTEGER}, #{cname,jdbcType=VARCHAR}, #{cdescription,jdbcType=VARCHAR}, 
+      #{cteacher,jdbcType=VARCHAR},#{cpath,jdbcType=VARCHAR})
+  </insert>
+  
+  <insert id="insertCourse" parameterType="com.Train.model.Course" >
+    insert into course
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cid != null" >
+        cId,
+      </if>
+      <if test="cname != null" >
+        cName,
+      </if>
+      <if test="cdescription != null" >
+        cDescription,
+      </if>
+      <if test="cteacher != null" >
+        cTeacher,
+      </if>
+      <if test="cpath != null" >
+        cPath,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cid != null" >
+        #{cid,jdbcType=INTEGER},
+      </if>
+      <if test="cname != null" >
+        #{cname,jdbcType=VARCHAR},
+      </if>
+      <if test="cdescription != null" >
+        #{cdescription,jdbcType=VARCHAR},
+      </if>
+      <if test="cteacher != null" >
+        #{cteacher,jdbcType=VARCHAR},
+      </if>
+      <if test="cpath != null" >
+        #{cpath,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.Train.model.Course" >
+    insert into course
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cid != null" >
+        cId,
+      </if>
+      <if test="cname != null" >
+        cName,
+      </if>
+      <if test="cdescription != null" >
+        cDescription,
+      </if>
+      <if test="cteacher != null" >
+        cTeacher,
+      </if>
+      <if test="cpath != null" >
+        cPath,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cid != null" >
+        #{cid,jdbcType=INTEGER},
+      </if>
+      <if test="cname != null" >
+        #{cname,jdbcType=VARCHAR},
+      </if>
+      <if test="cdescription != null" >
+        #{cdescription,jdbcType=VARCHAR},
+      </if>
+      <if test="cteacher != null" >
+        #{cteacher,jdbcType=VARCHAR},
+      </if>
+      <if test="cpath != null" >
+        #{cpath,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateCourseByCid" parameterType="com.Train.model.Course" >
+    update course
+    <set >
+      <if test="cname != null" >
+        cName = #{cname,jdbcType=VARCHAR},
+      </if>
+      <if test="cdescription != null" >
+        cDescription = #{cdescription,jdbcType=VARCHAR},
+      </if>
+      <if test="cpath != null" >
+        cPath = #{cpath,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where cid = #{cid,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.Train.model.Course" >
+    update course
+    <set >
+      <if test="cname != null" >
+        cName = #{cname,jdbcType=VARCHAR},
+      </if>
+      <if test="cdescription != null" >
+        cDescription = #{cdescription,jdbcType=VARCHAR},
+      </if>
+      <if test="cteacher != null" >
+        cTeacher = #{cteacher,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where cId = #{cid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.Train.model.Course" >
+    update course
+    set cName = #{cname,jdbcType=VARCHAR},
+      cDescription = #{cdescription,jdbcType=VARCHAR},
+      cTeacher = #{cteacher,jdbcType=VARCHAR}
+    where cId = #{cid,jdbcType=INTEGER}
+  </update>
+</mapper>

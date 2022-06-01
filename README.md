@@ -29,7 +29,9 @@ SSM项目启动时进入web.xml，web.xml依次执行监听器，过滤器，过
 ③	为了实例化Controller从而注入ServiceImp，自动装配实现了Service接口，这样通过Service接口注入ServiceImp；
 ④	在实例化ServiceImp的时候，又需要注入Dao，配置文件ApplicationContext.xml将Dao接口和Mapper.xml联系起来；
 ⑤	拿到了实例化之后的Controller之后就可以调用对于的方法操作数据了，最后将数据以JSON对象的形式返回到JSP，JSP再解析JSON数据拿到真实数据进行显示。
-![image](https://user-images.githubusercontent.com/38986230/171398979-c2d49854-1cdc-4cac-90d8-393ee6b571c7.png)
+
+<img width="471" alt="image" src="https://user-images.githubusercontent.com/38986230/171400215-71249fa5-3fc4-4aa7-ae17-71e14a8c200d.png">
+
 
 2.2.	JSP
 JSP顾名思义就是Java服务器页面，它是一种动态地Web页面技术[8]，它具体是由html[9][10]代码和java代码组成，其中html负责构建页面的静态部分，而java代码很显然是为了处理业务逻辑也就是页面的动态部分。通过JSP标签的形式就可以在JSP文件中嵌入java代码。JSP本质上和Servlet一样，它们都是运行在服务器这一端的，JSP调用遵循Servlet的处理方式，所以我们访问JSP其实就是在访问被服务器翻译过的Servlet。虽然这样会导致第一次访问速度较慢，但之后的访问JSP引擎如果发现JSP没有变化就不会重新加载，而是直接执行，这就大大提升了效率。同时，JSP标签封装了许多功能，可以访问JavaBeans、连接Database，还可以在不同页面间共享参数和传递控制信息。
@@ -40,15 +42,18 @@ AJAX可以异步请求数据，在不重新加载页面的情况下对局部内�
 2.4.	Tomcat
 Tomcat[11]简单来说就是一个能直接提供Web服务的JSP引擎，它是轻量级的、开源的应用服务器，底层其实就是Socket程序。Servlet用于处理用户从客户端发来的请求，而Tomcat作为JSP和Servlet运行的容器，它的基本作用如图2.2所示。为什么我们要用Tomcat？很显然，作为一个网络服务器，Tomcat的作用就是提供网络服务，我们在Web开发过程中所设计的页面，只有部署到类似于Tomcat这样的服务器上才能支持远程访问，被用户所看到和操作。
 
+![image](https://user-images.githubusercontent.com/38986230/171400298-ea73cb3f-4159-4ec3-abfb-89ac24276fba.png)
+
+
 2.5.	MySQL
 MySQL[12]的突出之处在于它体积小、速度快，并且支持多线程、多用户。它是一种开源式的关系型DMS，开源带来的高效、安全与免费使得它深受IT开发者和中小型企业的喜爱，同时MySQL区别于其他数据库的地方就是它支持插件式的存储引擎。它的工作模式是基于Client/Sever的，即客户/服务端的体系结构，服务端即mysqlld，它运行在MySQL服务器上，监听并处理客户端发送的请求，然后去访问数据库并返回信息。由于是关系型的数据管理系统，MySQL的数据是以数据表的形式存储展现的，若干的表单组成一个Database[13]，这就具有很强的可操作性和管理性。本次在进行数据库设计的时候还使用了与MySQL相配套的可视化应用工具Navicat,极大地简化了数据表的设计过程。
-![image](https://user-images.githubusercontent.com/38986230/171399114-052c1a26-3d91-4ea0-8a78-c1a59af53629.png)
 
 ### DataBase Design
 ER模型如下：
+
 <img width="460" alt="image" src="https://user-images.githubusercontent.com/38986230/171399576-33d85a45-565b-4afb-b1ec-b1b2ad29a8cf.png">
 
-### 程序结构设计
+### Structure Design
 本系统采用SSM框架搭建，遵循MVC的开发模式。程序结构目录包含Controller、Service、ServiceImp 、Model、Dao、Mapper，除以以外还包含两个包分别为filter过滤器包和util工具包，View层体现在JSP页面，以下将详细介绍各层作用。
 ①	Controller控制器层负责业务逻辑的控制处理，它负责处理View层的请求然后调用Service层的接口来控制业务逻辑，将JSP页面的URL请求映射到不同的处理函数，同时获取JSP页面传来的参数，并将参数传给相对应的服务层函数。控制器的使用需要在spring配置文件中进行配置。
 ②	Service层负责具体的业务实现接口，控制器会调用Service层的接口，具体的内容在ServiceImp中进行定义，而ServiceImp的业务实现，实则还要调用Dao层的接口，这样才能实现整个业务处理过程，并返回结果给Controller层。
@@ -61,7 +66,7 @@ ER模型如下：
 ⑨	uitl包里面是其他工具类，包括视频文件上传、视频文件转码、发送邮件、返回数据格式处理等工具。方便项目调用uitl包里的工具完成相关功能的实现。
 
 
-#### 技术笔记
+### Technical note
 tomcat
 Tomcat 是Web应用服务器,是一个Servlet/JSP容器. Tomcat 作为Servlet容器,负责处理客户请求,把请求传送给Servlet,并将Servlet的响应传送回给客户
 平时开发完JavaWeb应用后，一般都会将JavaWeb应用打包成一个war包，然后将这个war包放到Tomcat服务器的webapps目录下，当Tomcat服务器启动时，就会自动将webapps目录下的war包解压。

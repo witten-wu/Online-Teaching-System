@@ -1,7 +1,7 @@
 # Online-Teaching-System
 ### Java Web Project
 
-#### 相关技术摘要
+#### 技术笔记
 tomcat
 Tomcat 是Web应用服务器,是一个Servlet/JSP容器. Tomcat 作为Servlet容器,负责处理客户请求,把请求传送给Servlet,并将Servlet的响应传送回给客户
 平时开发完JavaWeb应用后，一般都会将JavaWeb应用打包成一个war包，然后将这个war包放到Tomcat服务器的webapps目录下，当Tomcat服务器启动时，就会自动将webapps目录下的war包解压。

@@ -1,6 +1,52 @@
 # Online-Teaching-System
 ### Java Web Project
 
+### Environment
+Operate System：Windows7
+DataBase：MySQL
+web服务器/应用服务器：Tomcat
+IDE：Eclipse
+![image](https://user-images.githubusercontent.com/38986230/171399323-6a7e416b-4e72-4c86-ab30-eb373197ee85.png)
+
+
+### Methodology
+2.1.SSM框架简介
+2.1.1.	Spring
+Spring[1]是一个容器框架，主要做的就是粘合模块组件达到统一管理的目的，它最核心的部分就是控制反转和面向切面。Spring装配Bean并通过在配置文件中设置特定参数从而调用构造方法实例化Java对象，省去了主动new对象这一过程，这就体现了控制反转。面向切面这种编程思想是将行为封装到可重用的模块中，这样编写的代码是松耦合的，代码之间的依赖性降低，这就给程序维护减轻了压力。
+
+2.1.2.	SpringMVC
+SpringMVC[2][3]框架是Spring的一部分，Spring作为父容器而SpringMVC是子容器，SpringMVC处于Spring框架的web模块，很好的遵循了MVC模式[4][5]，分离出Controller、Model、View三部分，通过DispatcherServlet这个核心Servlet拦截用户请求，然后转到Controller，通过注入服务实现层和Model层（同时会关联Mapper层）拿到实例化好的Controller方法，再去调用相对应的方法操作数据，返回到View层的JSP[6]里。
+
+2.1.3.	MyBatis
+我们可以使用原生的JDBC接口对数据库进行操作，但这样做的缺点在于将SQL语句的编码嵌入在Java[7]代码中，造成了难以维护以及可读性差的弊端，同时频繁进行链接、释放数据库的操作也在一定程度上影响了性能。MyBatis很好的解决了这些问题，由于它封装了JDBC，使用时就无需再进行参数设置、驱动注册、连接配置等繁琐的过程而只需对SQL语句进行编写。它以注解的形式将Statement配置好，通过SQL和Java实体类映射，执行SQL之后将结果映射为Java对象返回。正是这种映射的机制和接口绑定的模式，使得MyBatis简单、高效。
+
+2.1.4.	框架整合运行原理
+SSM项目启动时进入web.xml，web.xml依次执行监听器，过滤器，过滤器，接着启动Spring的核心控制器DispatcherServlet，DispatcherServlet拦截请求并匹配到相应的Controller进行处理。运行流程如图所示。
+
+①	JSP通过Ajax异步请求方式提出url请求，传递参数，tomcat进行拦截并提供给DispatcherServlet；
+②	DispatcherServlet根据Spring.xml中的配置将请求匹配到控制层处理；
+③	为了实例化Controller从而注入ServiceImp，自动装配实现了Service接口，这样通过Service接口注入ServiceImp；
+④	在实例化ServiceImp的时候，又需要注入Dao，配置文件ApplicationContext.xml将Dao接口和Mapper.xml联系起来；
+⑤	拿到了实例化之后的Controller之后就可以调用对于的方法操作数据了，最后将数据以JSON对象的形式返回到JSP，JSP再解析JSON数据拿到真实数据进行显示。
+![image](https://user-images.githubusercontent.com/38986230/171398979-c2d49854-1cdc-4cac-90d8-393ee6b571c7.png)
+
+2.2.	JSP
+JSP顾名思义就是Java服务器页面，它是一种动态地Web页面技术[8]，它具体是由html[9][10]代码和java代码组成，其中html负责构建页面的静态部分，而java代码很显然是为了处理业务逻辑也就是页面的动态部分。通过JSP标签的形式就可以在JSP文件中嵌入java代码。JSP本质上和Servlet一样，它们都是运行在服务器这一端的，JSP调用遵循Servlet的处理方式，所以我们访问JSP其实就是在访问被服务器翻译过的Servlet。虽然这样会导致第一次访问速度较慢，但之后的访问JSP引擎如果发现JSP没有变化就不会重新加载，而是直接执行，这就大大提升了效率。同时，JSP标签封装了许多功能，可以访问JavaBeans、连接Database，还可以在不同页面间共享参数和传递控制信息。
+
+2.3.	AJAX
+AJAX可以异步请求数据，在不重新加载页面的情况下对局部内容进行更新，所以它是为构建动态网页而准备的。它是一种异步的传输模式，何为异步？就是在用户发送请求的同时，可以进行其他的操作而页面不会因为请求数据还未返回而卡死。Ajax的核心对象是XMLHttpRequest（XHR）。XHR提供了发送请求和解析响应这两者的接口，并以异步的方式从服务器获取新的数据。总的来说，JS可以通过调用AJAX这种异步通信传输组件来获取格式化之后的数据并解析以达到局部更新Web内容的效果。
+
+2.4.	Tomcat
+Tomcat[11]简单来说就是一个能直接提供Web服务的JSP引擎，它是轻量级的、开源的应用服务器，底层其实就是Socket程序。Servlet用于处理用户从客户端发来的请求，而Tomcat作为JSP和Servlet运行的容器，它的基本作用如图2.2所示。为什么我们要用Tomcat？很显然，作为一个网络服务器，Tomcat的作用就是提供网络服务，我们在Web开发过程中所设计的页面，只有部署到类似于Tomcat这样的服务器上才能支持远程访问，被用户所看到和操作。
+
+2.5.	MySQL
+MySQL[12]的突出之处在于它体积小、速度快，并且支持多线程、多用户。它是一种开源式的关系型DMS，开源带来的高效、安全与免费使得它深受IT开发者和中小型企业的喜爱，同时MySQL区别于其他数据库的地方就是它支持插件式的存储引擎。它的工作模式是基于Client/Sever的，即客户/服务端的体系结构，服务端即mysqlld，它运行在MySQL服务器上，监听并处理客户端发送的请求，然后去访问数据库并返回信息。由于是关系型的数据管理系统，MySQL的数据是以数据表的形式存储展现的，若干的表单组成一个Database[13]，这就具有很强的可操作性和管理性。本次在进行数据库设计的时候还使用了与MySQL相配套的可视化应用工具Navicat,极大地简化了数据表的设计过程。
+![image](https://user-images.githubusercontent.com/38986230/171399114-052c1a26-3d91-4ea0-8a78-c1a59af53629.png)
+
+
+
+
+
 #### 技术笔记
 tomcat
 Tomcat 是Web应用服务器,是一个Servlet/JSP容器. Tomcat 作为Servlet容器,负责处理客户请求,把请求传送给Servlet,并将Servlet的响应传送回给客户

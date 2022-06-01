@@ -3,11 +3,12 @@
 
 ### Environment
 Operate System：Windows7
-DataBase：MySQL
-web服务器/应用服务器：Tomcat
-IDE：Eclipse
-![image](https://user-images.githubusercontent.com/38986230/171399323-6a7e416b-4e72-4c86-ab30-eb373197ee85.png)
 
+DataBase：MySQL
+
+web服务器/应用服务器：Tomcat
+
+IDE：Eclipse
 
 ### Methodology
 2.1.SSM框架简介
@@ -43,8 +44,21 @@ Tomcat[11]简单来说就是一个能直接提供Web服务的JSP引擎，它是�
 MySQL[12]的突出之处在于它体积小、速度快，并且支持多线程、多用户。它是一种开源式的关系型DMS，开源带来的高效、安全与免费使得它深受IT开发者和中小型企业的喜爱，同时MySQL区别于其他数据库的地方就是它支持插件式的存储引擎。它的工作模式是基于Client/Sever的，即客户/服务端的体系结构，服务端即mysqlld，它运行在MySQL服务器上，监听并处理客户端发送的请求，然后去访问数据库并返回信息。由于是关系型的数据管理系统，MySQL的数据是以数据表的形式存储展现的，若干的表单组成一个Database[13]，这就具有很强的可操作性和管理性。本次在进行数据库设计的时候还使用了与MySQL相配套的可视化应用工具Navicat,极大地简化了数据表的设计过程。
 ![image](https://user-images.githubusercontent.com/38986230/171399114-052c1a26-3d91-4ea0-8a78-c1a59af53629.png)
 
+### DataBase Design
+ER模型如下：
+<img width="460" alt="image" src="https://user-images.githubusercontent.com/38986230/171399576-33d85a45-565b-4afb-b1ec-b1b2ad29a8cf.png">
 
-
+### 程序结构设计
+本系统采用SSM框架搭建，遵循MVC的开发模式。程序结构目录包含Controller、Service、ServiceImp 、Model、Dao、Mapper，除以以外还包含两个包分别为filter过滤器包和util工具包，View层体现在JSP页面，以下将详细介绍各层作用。
+①	Controller控制器层负责业务逻辑的控制处理，它负责处理View层的请求然后调用Service层的接口来控制业务逻辑，将JSP页面的URL请求映射到不同的处理函数，同时获取JSP页面传来的参数，并将参数传给相对应的服务层函数。控制器的使用需要在spring配置文件中进行配置。
+②	Service层负责具体的业务实现接口，控制器会调用Service层的接口，具体的内容在ServiceImp中进行定义，而ServiceImp的业务实现，实则还要调用Dao层的接口，这样才能实现整个业务处理过程，并返回结果给Controller层。
+③	ServiceImp层主要对Service层的接口进行定义，同时要调用Dao层的接口进行具体的业务处理，从而返回结果。
+④	Dao层具体来说就是数据的持久化层，这里是负责与数据库打交道的，一切的数据处理都被封装在Dao层，Dao层会将Mapper.XML文件中对数据库进行具体操作的SQL语句映射成Dao层中的接口，这样通过Dao层来操作数据库。
+⑤	Model层将数据库中的表映射成每个实体类，并对实体类中的属性以及操作属性的方法进行定义和实现，有了Model层我们就可以将数据通过Model层中的对象进行临时存储，这样就可以把数据传到Dao层，方便Dao层进行数据的持久化。
+⑥	Mapper层是存放XML文件的地方，每个人XML文件中写的就是对数据库进行具体操作的SQL语句，通过对Spring配置文件进行配置，就可以通过Mapper中的XML文件实现对数据库的访问
+⑦	View层负责显示JSP页面，由控制层进行控制，耦合度较高，所以可以将二者结合在一起进行开发。
+⑧	在SSM项目启动的过程中，会装配过滤器（filter层），只要在web.xml中配置好拦截的请求，过滤器都会对用户的请求做出过滤，限制了用户非正常或违规的请求，而只执行正常操作下的请求。过滤器将用户请求进行拦截处理，它本身并不是Servlet，它只能修改请求或者响应而不能产生一个请求或者响应
+⑨	uitl包里面是其他工具类，包括视频文件上传、视频文件转码、发送邮件、返回数据格式处理等工具。方便项目调用uitl包里的工具完成相关功能的实现。
 
 
 #### 技术笔记

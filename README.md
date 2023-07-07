@@ -13,17 +13,17 @@ IDE：Eclipse
 ### Object
 本项目旨在将传统的线下培训搬到线上，依据当下比较流行的云课堂思维模式，设计一款在线培训的web系统。系统主要分为三种用户，分别为学员、教师和管理员，用例图如下
 
-<img src="https://github.com/witten-wu/Online-Teaching-System/assets/38986230/a006caa5-82a1-403a-817b-8ea014338cc9"  width="300" height="200">
+<img src="https://github.com/witten-wu/Online-Teaching-System/assets/38986230/a006caa5-82a1-403a-817b-8ea014338cc9"  width="300" height="200"><br>
 
-<img src="https://github.com/witten-wu/Online-Teaching-System/assets/38986230/70a533ac-455f-4f46-a9fc-b60e92234a51"  width="300" height="200">
+<img src="https://github.com/witten-wu/Online-Teaching-System/assets/38986230/70a533ac-455f-4f46-a9fc-b60e92234a51"  width="300" height="200"><br>
 
-<img src="https://github.com/witten-wu/Online-Teaching-System/assets/38986230/f6ef66ae-fb23-4e71-9370-d9657b7d1c77"  width="300" height="200">
+<img src="https://github.com/witten-wu/Online-Teaching-System/assets/38986230/f6ef66ae-fb23-4e71-9370-d9657b7d1c77"  width="300" height="200"><br>
 
 
 ### DataBase Design
 #### ER模型如下：
 
-<img src="https://github.com/witten-wu/Online-Teaching-System/assets/38986230/083d79e4-1271-4a0b-ae48-93618d551d53"  width="600" height="300">
+<img src="https://github.com/witten-wu/Online-Teaching-System/assets/38986230/083d79e4-1271-4a0b-ae48-93618d551d53"  width="600" height="300"><br>
 
 
 #### 数据表设计: 参考本项目目录下sql脚本文件train.sql
@@ -66,13 +66,13 @@ SpringMVC[2][3]框架是Spring的一部分，Spring作为父容器而SpringMVC�
 
 ### Webpage Preview
 
-<img src="https://github.com/witten-wu/Online-Teaching-System/assets/38986230/bc6e5fd6-24b3-4a09-b497-fd0e913d36d0"  width="600" height="400">
+<img src="https://github.com/witten-wu/Online-Teaching-System/assets/38986230/bc6e5fd6-24b3-4a09-b497-fd0e913d36d0"  width="500" height="350"><br>
 
-<img src="https://github.com/witten-wu/Online-Teaching-System/assets/38986230/90b6e5d4-6514-485d-88db-fc91333fa0b4"  width="500" height="350">
+<img src="https://github.com/witten-wu/Online-Teaching-System/assets/38986230/90b6e5d4-6514-485d-88db-fc91333fa0b4"  width="500" height="350"><br>
 
-<img src="https://github.com/witten-wu/Online-Teaching-System/assets/38986230/1ee11dfe-6992-447f-8dce-194a44848e49"  width="500" height="350">
+<img src="https://github.com/witten-wu/Online-Teaching-System/assets/38986230/1ee11dfe-6992-447f-8dce-194a44848e49"  width="500" height="350"><br>
 
-<img src="https://github.com/witten-wu/Online-Teaching-System/assets/38986230/a34c0e6b-4408-4051-b5f7-98e84b63b0d4"  width="400" height="200">
+<img src="https://github.com/witten-wu/Online-Teaching-System/assets/38986230/a34c0e6b-4408-4051-b5f7-98e84b63b0d4"  width="400" height="200"><br>
 
-<img src="https://github.com/witten-wu/Online-Teaching-System/assets/38986230/8f2fc75e-4031-45f8-b027-4479370da871"  width="400" height="200">
+<img src="https://github.com/witten-wu/Online-Teaching-System/assets/38986230/8f2fc75e-4031-45f8-b027-4479370da871"  width="400" height="200"><br>
 

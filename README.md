@@ -2,13 +2,14 @@
 ### Java Web Project
 
 ### Environment
-Operate System：Windows7
+
+Java SE 1.8 8u241
 
 DataBase：MySQL
 
-web服务器/应用服务器：Tomcat
+web服务器/应用服务器：Tomcat 8.5
 
-IDE：Eclipse
+IDE：Eclipse(neon) for JavaEE
 
 ### Object
 本项目旨在将传统的线下培训搬到线上，依据当下比较流行的云课堂思维模式，设计一款在线培训的web系统。系统主要分为三种用户，分别为学员、教师和管理员，用例图如下
